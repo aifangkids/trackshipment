@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>綜合貨態查詢平台</title>
+    <style>
+        body {
+            font-family: '微軟正黑體', 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f4f4f9;
+        }
+        .container {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 100%;
+            max-width: 450px;
+        }
+        h2 {
+            color: #333;
+            margin-bottom: 30px;
+            border-bottom: 3px solid #0070c7;
+            padding-bottom: 10px;
+        }
+        .tracking-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 1px dashed #ccc;
+            border-radius: 8px;
+            background-color: #fcfcfc;
+        }
+        input[type="text"] {
+            width: 90%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+        .button {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 6px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 10px;
+        }
+        .taqbin-button {
+            background-color: #ffcc00; 
+            color: #333;
+        }
+        .taqbin-button:hover {
+            background-color: #ffaa00;
+        }
+        .seven-eleven-button {
+            background-color: #0070c7; 
+            color: white;
+        }
+        .seven-eleven-button:hover {
+            background-color: #005a9c;
+        }
+        .note {
+            margin-top: 25px;
+            font-size: 12px;
+            color: #666;
+            text-align: left;
+            line-height: 1.6;
+            padding: 0 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>綜合貨態查詢</h2>
+    
+    <div class="tracking-section">
+        <p>🚚 **黑貓宅急便** 託運單查詢</p>
+        <input type="text" id="taqbinTrackingNumber" placeholder="請輸入 10 位黑貓單號" maxlength="10">
+        <button class="button taqbin-button" onclick="queryTaqbinStatus()">🔍 查詢黑貓貨態</button>
+    </div>
+
+    <div class="tracking-section">
+        <p>📦 **7-ELEVEN** 交貨便/包裹查詢</p>
+        <input type="text" id="sevenElevenTrackingNumber" placeholder="請輸入 11/12/16 位交貨便單號">
+        <button class="button seven-eleven-button" onclick="querySevenElevenStatus()">📋 複製單號並前往查詢</button>
+    </div>
+
+    <div class="note">
+        **操作說明：**
+        <ul>
+            <li>**黑貓查詢**：輸入單號，直接跳轉官方結果。</li>
+            <li>**7-ELEVEN 查詢**：單號會自動複製到剪貼簿，請在新頁面貼上後查詢。</li>
+        </ul>
+    </div>
+</div>
+
+<script>
+    // 黑貓查詢功能 (直接帶參數跳轉)
+    function queryTaqbinStatus() {
+        const trackingNo = document.getElementById('taqbinTrackingNumber').value.trim();
+        if (trackingNo === "") {
+            alert("請輸入有效的黑貓託運單號。");
+            return;
+        }
+        // 黑貓查詢網址結構允許帶參數
+        const taqbinUrl = `https://www.t-cat.com.tw/inquire/TraceDetail.aspx?queryNo=${trackingNo}`;
+        window.open(taqbinUrl, '_blank');
+    }
+
+    // 7-ELEVEN 查詢功能 (複製單號並跳轉)
+    function querySevenElevenStatus() {
+        const trackingInput = document.getElementById('sevenElevenTrackingNumber');
+        const trackingNo = trackingInput.value.trim();
+        const sevenElevenUrl = "https://eservice.7-11.com.tw/E-Tracking/search.aspx";
+
+        if (trackingNo === "") {
+            alert("請輸入有效的 7-ELEVEN 交貨便單號。");
+            return;
+        }
+
+        // 嘗試將單號複製到剪貼簿
+        trackingInput.select();
+        trackingInput.setSelectionRange(0, 99999); 
+        
+        const copyAction = () => {
+             // 優先使用現代瀏覽器的 navigator.clipboard API
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                return navigator.clipboard.writeText(trackingNo).then(() => {
+                    alert(`單號 [${trackingNo}] 已複製到剪貼簿。即將開啟 7-ELEVEN 查詢頁面，請貼上單號查詢。`);
+                    window.open(sevenElevenUrl, '_blank');
+                }).catch(() => {
+                    // 如果 API 失敗，退回使用 document.execCommand
+                    if (document.execCommand('copy')) {
+                        alert(`單號 [${trackingNo}] 已複製到剪貼簿。即將開啟 7-ELEVEN 查詢頁面，請貼上單號查詢。`);
+                    } else {
+                        alert("單號複製失敗。即將開啟 7-ELEVEN 查詢頁面，請手動複製後貼上查詢。");
+                    }
+                     window.open(sevenElevenUrl, '_blank');
+                });
+            } else {
+                // 如果兩個 API 都不支援 (舊瀏覽器)
+                alert("單號複製失敗。即將開啟 7-ELEVEN 查詢頁面，請手動複製後貼上查詢。");
+                window.open(sevenElevenUrl, '_blank');
+            }
+        };
+
+        copyAction();
+    }
+</script>
+
+</body>
+</html>
