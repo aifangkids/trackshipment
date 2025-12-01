@@ -3,57 +3,77 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>綜合貨態查詢平台</title>
+    <title>璦坊童裝 - 貨態查詢</title>
     <style>
         body {
+            margin: 0;
+            padding: 0;
             font-family: '微軟正黑體', 'Arial', sans-serif;
+            background-image: https://drive.google.com/file/d/1-4dBGf7oiMumz4EedRjRPctVShVq5rLJ/view?usp=drivesdk; /* <-- 將此處替換為您的圖片網址 */
+            background-size: cover; /* 讓背景圖片覆蓋整個視窗 */
+            background-position: center; /* 圖片置中 */
+            background-repeat: no-repeat; /* 不重複 */
+            min-height: 100vh; /* 確保背景圖至少填滿一個視窗高度 */
             display: flex;
             justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            background-color: #f4f4f9;
+            align-items: flex-start; /* 內容從上方開始對齊，而不是置中 */
+            overflow-y: auto; /* 當內容超出時可以滾動 */
         }
+
         .container {
-            background-color: #fff;
-            padding: 40px;
+            background-color: rgba(255, 255, 255, 0); /* 完全透明，讓背景圖片的白色框透出來 */
+            padding: 20px; /* 內邊距，可以調整 */
             border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 0px 0px rgba(0, 0, 0, 0); /* 移除陰影 */
             text-align: center;
-            width: 100%;
-            max-width: 450px;
+            width: 90%; /* 寬度佔滿 */
+            max-width: 300px; /* 配合圖片中白色框的建議寬度 */
+            
+            /* 定位到圖片中的白色框 */
+            margin-top: 240px; /* 調整這個值來讓容器上下移動 */
+            margin-left: -5px; /* 調整這個值來讓容器左右移動 */
+            position: relative; /* 確保定位有效 */
+            z-index: 10; /* 確保內容在背景圖之上 */
         }
+
         h2 {
-            color: #333;
-            margin-bottom: 30px;
-            border-bottom: 3px solid #0070c7;
-            padding-bottom: 10px;
+            display: none; /* 隱藏 H2 標題，因為背景圖上已經有標題了 */
         }
+        
         .tracking-section {
-            margin-bottom: 30px;
-            padding: 20px;
-            border: 1px dashed #ccc;
+            margin-bottom: 20px; /* 區塊間距 */
+            padding: 15px; /* 內邊距 */
+            border: none; /* 移除邊框 */
             border-radius: 8px;
-            background-color: #fcfcfc;
+            background-color: rgba(255, 255, 255, 0.9); /* 讓區塊背景稍微不透明，內容更清晰 */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05); /* 輕微陰影 */
         }
+        .tracking-section p {
+            font-size: 14px;
+            margin-bottom: 10px;
+            color: #555;
+            font-weight: bold;
+        }
+
         input[type="text"] {
-            width: 90%;
-            padding: 12px;
-            margin-bottom: 15px;
+            width: calc(100% - 20px); /* 扣除 padding */
+            padding: 10px;
+            margin-bottom: 10px;
             border: 1px solid #ccc;
             border-radius: 6px;
-            font-size: 16px;
+            font-size: 14px;
+            box-sizing: border-box; /* 確保 padding 不增加寬度 */
         }
         .button {
             width: 100%;
-            padding: 14px;
+            padding: 12px;
             border: none;
             border-radius: 6px;
-            font-size: 18px;
+            font-size: 15px;
             font-weight: bold;
             cursor: pointer;
             transition: background-color 0.3s;
-            margin-top: 10px;
+            margin-top: 8px;
         }
         .taqbin-button {
             background-color: #ffcc00; 
@@ -70,37 +90,44 @@
             background-color: #005a9c;
         }
         .note {
-            margin-top: 25px;
-            font-size: 12px;
-            color: #666;
+            margin-top: 20px;
+            font-size: 11px;
+            color: #777;
             text-align: left;
-            line-height: 1.6;
-            padding: 0 10px;
+            line-height: 1.5;
+            padding: 0 5px;
+            background-color: rgba(255, 255, 255, 0.8); /* 說明區塊也稍微不透明 */
+            border-radius: 8px;
+            padding: 10px;
+        }
+        .note ul {
+            margin: 0;
+            padding-left: 15px;
+        }
+        .note li {
+            margin-bottom: 5px;
         }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h2>綜合貨態查詢</h2>
-    
-    <div class="tracking-section">
-        <p>🚚 **黑貓宅急便** 託運單查詢</p>
+    <h2>綜合貨態查詢</h2> <div class="tracking-section">
+        <p>🚚  黑貓宅急便 託運單查詢</p>
         <input type="text" id="taqbinTrackingNumber" placeholder="請輸入 10 位黑貓單號" maxlength="10">
         <button class="button taqbin-button" onclick="queryTaqbinStatus()">🔍 查詢黑貓貨態</button>
     </div>
 
     <div class="tracking-section">
-        <p>📦 **7-ELEVEN** 交貨便/包裹查詢</p>
-        <input type="text" id="sevenElevenTrackingNumber" placeholder="請輸入 11/12/16 位交貨便單號">
-        <button class="button seven-eleven-button" onclick="querySevenElevenStatus()">📋 複製單號並前往查詢</button>
+        <p>📦  7-ELEVEN 交貨便查詢</p>
+        <button class="button seven-eleven-button" onclick="openSevenElevenTracking()">🌐 前往 7-ELEVEN 查詢平台</button>
     </div>
 
     <div class="note">
-        **操作說明：**
+        ※操作說明
         <ul>
-            <li>**黑貓查詢**：輸入單號，直接跳轉官方結果。</li>
-            <li>**7-ELEVEN 查詢**：單號會自動複製到剪貼簿，請在新頁面貼上後查詢。</li>
+            <li>黑貓查詢：輸入單號後，直接跳轉到官方結果頁面</li>
+            <li>7-ELEVEN 查詢：點擊按鈕，會直接前往官方查詢網站，請於該網站輸入單號</li>
         </ul>
     </div>
 </div>
@@ -113,49 +140,14 @@
             alert("請輸入有效的黑貓託運單號。");
             return;
         }
-        // 黑貓查詢網址結構允許帶參數
         const taqbinUrl = `https://www.t-cat.com.tw/inquire/TraceDetail.aspx?queryNo=${trackingNo}`;
         window.open(taqbinUrl, '_blank');
     }
 
-    // 7-ELEVEN 查詢功能 (複製單號並跳轉)
-    function querySevenElevenStatus() {
-        const trackingInput = document.getElementById('sevenElevenTrackingNumber');
-        const trackingNo = trackingInput.value.trim();
+    // 7-ELEVEN 查詢功能 (僅跳轉)
+    function openSevenElevenTracking() {
         const sevenElevenUrl = "https://eservice.7-11.com.tw/E-Tracking/search.aspx";
-
-        if (trackingNo === "") {
-            alert("請輸入有效的 7-ELEVEN 交貨便單號。");
-            return;
-        }
-
-        // 嘗試將單號複製到剪貼簿
-        trackingInput.select();
-        trackingInput.setSelectionRange(0, 99999); 
-        
-        const copyAction = () => {
-             // 優先使用現代瀏覽器的 navigator.clipboard API
-            if (navigator.clipboard && navigator.clipboard.writeText) {
-                return navigator.clipboard.writeText(trackingNo).then(() => {
-                    alert(`單號 [${trackingNo}] 已複製到剪貼簿。即將開啟 7-ELEVEN 查詢頁面，請貼上單號查詢。`);
-                    window.open(sevenElevenUrl, '_blank');
-                }).catch(() => {
-                    // 如果 API 失敗，退回使用 document.execCommand
-                    if (document.execCommand('copy')) {
-                        alert(`單號 [${trackingNo}] 已複製到剪貼簿。即將開啟 7-ELEVEN 查詢頁面，請貼上單號查詢。`);
-                    } else {
-                        alert("單號複製失敗。即將開啟 7-ELEVEN 查詢頁面，請手動複製後貼上查詢。");
-                    }
-                     window.open(sevenElevenUrl, '_blank');
-                });
-            } else {
-                // 如果兩個 API 都不支援 (舊瀏覽器)
-                alert("單號複製失敗。即將開啟 7-ELEVEN 查詢頁面，請手動複製後貼上查詢。");
-                window.open(sevenElevenUrl, '_blank');
-            }
-        };
-
-        copyAction();
+        window.open(sevenElevenUrl, '_blank');
     }
 </script>
 
