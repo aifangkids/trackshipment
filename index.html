@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>璦坊童裝 - 貨態查詢</title>
     <style>
-        /* 載入粉圓體 */
+        /* 載入粉圓體 (使用您提到的穩定方式) */
         @font-face {
             font-family: 'Huninn';
             src: url('https://raw.githubusercontent.com/justfont/open-huninn-font/master/font/jf-openhuninn-1.1.ttf') format('truetype');
@@ -15,28 +15,27 @@
         :root {
             --color-text: #a7a8a1;    /* 深灰綠 */
             --color-accent: #e2c890;  /* 金沙色 */
-            --color-bg-main: #ede4d2; /* 背景色 */
+            --color-bg-main: #ede4d2; /* 背景色碼 */
             --white: #ffffff;
         }
 
         body {
             margin: 0;
             padding: 0;
-            background-color: var(--color-bg-main); /* 背景換成指定色碼 */
+            background-color: var(--color-bg-main);
             min-height: 100vh;
             display: flex;
-            flex-direction: column; /* 改為垂直排列 */
+            flex-direction: column;
             align-items: center;
             font-family: 'Huninn', 'Microsoft JhengHei', sans-serif;
             color: var(--color-text);
         }
 
-        /* 圖片容器設計 */
+        /* 頂部圖片區域 */
         .banner-container {
             width: 100%;
             display: flex;
             justify-content: center;
-            overflow: hidden;
             background-color: transparent;
         }
 
@@ -44,7 +43,6 @@
             width: 100%;
             height: auto;
             display: block;
-            object-fit: cover;
         }
 
         /* 電腦端設計：960px * 540px */
@@ -52,27 +50,31 @@
             .banner-image {
                 width: 960px;
                 height: 540px;
-                max-width: 100%; /* 避免超出電腦螢幕寬度 */
-                object-fit: contain; /* 保持圖片比例不變形 */
+                max-width: 100%;
+                object-fit: contain;
+            }
+            .container {
+                margin-top: -150px; /* 電腦版維持些微重疊感 */
             }
         }
 
-        /* 手機端設計：自動響應式 */
+        /* 手機端設計：修正遮擋問題 */
         @media (max-width: 1023px) {
             .banner-image {
                 width: 100%;
-                max-width: 500px; /* 一般手機橫寬限制 */
+                /* 確保圖片在手機端比例正確 */
+            }
+            .container {
+                /* --- 關鍵修改處 --- */
+                margin-top: 15px; /* 改為正值，讓查詢框下移，不擋住 Aifang Kids 圖片 */
             }
         }
 
         .container {
-            background-color: rgba(255, 255, 255, 0); 
             padding: 20px;
             text-align: center;
             width: 90%;
             max-width: 320px;
-            /* 調整與上方圖片的間距 */
-            margin-top: -50px; /* 稍微往上提，產生疊層感，可依喜好調整 */
             position: relative;
             z-index: 10;
         }
@@ -104,6 +106,7 @@
             font-family: 'Huninn', sans-serif;
             outline: none;
             text-align: center;
+            color: var(--color-text);
         }
 
         .button {
@@ -140,11 +143,7 @@
             padding: 15px;
         }
 
-        .note ul {
-            margin: 5px 0 0 0;
-            padding-left: 20px;
-        }
-
+        .note ul { margin: 5px 0 0 0; padding-left: 20px; }
         h2 { display: none; }
     </style>
 </head>
@@ -152,13 +151,11 @@
 
 <div class="banner-container">
     <img src="https://raw.githubusercontent.com/aifangkids/trackshipment/main/AKfb__.jpg" 
-         alt="璦坊童裝 Banner" 
+         alt="璦坊童裝" 
          class="banner-image">
 </div>
 
 <div class="container">
-    <h2>綜合貨態查詢</h2> 
-    
     <div class="tracking-section">
         <p>🚚 黑貓宅急便 託運單查詢</p>
         <input type="text" id="taqbinTrackingNumber" placeholder="請輸入 10 位黑貓單號" maxlength="10">
@@ -186,13 +183,11 @@
             alert("請輸入有效的黑貓託運單號。");
             return;
         }
-        const taqbinUrl = `https://www.t-cat.com.tw/inquire/TraceDetail.aspx?queryNo=${trackingNo}`;
-        window.open(taqbinUrl, '_blank');
+        window.open(`https://www.t-cat.com.tw/inquire/TraceDetail.aspx?queryNo=${trackingNo}`, '_blank');
     }
 
     function openSevenElevenTracking() {
-        const sevenElevenUrl = "https://eservice.7-11.com.tw/E-Tracking/search.aspx";
-        window.open(sevenElevenUrl, '_blank');
+        window.open("https://eservice.7-11.com.tw/E-Tracking/search.aspx", "_blank");
     }
 </script>
 
