@@ -3,32 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>璦坊童裝 - 貨態查詢</title>
+    <title>AiFang Kids | 貨態查詢 TRACKING</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Inter:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        /* 載入粉圓體 (使用您提到的穩定方式) */
-        @font-face {
-            font-family: 'Huninn';
-            src: url('https://raw.githubusercontent.com/justfont/open-huninn-font/master/font/jf-openhuninn-1.1.ttf') format('truetype');
-            font-display: swap;
+        :root {
+            --baby-pink: #f2a6b2;
+            --kids-blue: #8da9c4;
+            --border-color: #f2f2f2;
+            --text-main: #333;
+            --text-gray: #888;
         }
 
-        :root {
-            --color-text: #a7a8a1;    /* 深灰綠 */
-            --color-accent: #e2c890;  /* 金沙色 */
-            --color-bg-main: #ede4d2; /* 背景色碼 */
-            --white: #ffffff;
+        * { 
+            box-sizing: border-box; 
+            margin: 0; padding: 0; 
+            font-family: 'Noto Sans TC', sans-serif;
         }
 
         body {
-            margin: 0;
-            padding: 0;
-            background-color: var(--color-bg-main);
+            background-color: #fff;
+            color: var(--text-main);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
-            font-family: 'Huninn', 'Microsoft JhengHei', sans-serif;
-            color: var(--color-text);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
         }
 
         /* 頂部圖片區域 */
@@ -36,7 +36,7 @@
             width: 100%;
             display: flex;
             justify-content: center;
-            background-color: transparent;
+            background-color: #fff;
         }
 
         .banner-image {
@@ -45,135 +45,196 @@
             display: block;
         }
 
-        /* 電腦端設計：960px * 540px */
+        /* 響應式圖片尺寸限制 */
         @media (min-width: 1024px) {
             .banner-image {
                 width: 960px;
                 height: 540px;
-                max-width: 100%;
-                object-fit: contain;
-            }
-            .container {
-                margin-top: -150px; /* 電腦版維持些微重疊感 */
+                object-fit: cover;
             }
         }
 
-        /* 手機端設計：修正遮擋問題 */
-        @media (max-width: 1023px) {
-            .banner-image {
-                width: 100%;
-                /* 確保圖片在手機端比例正確 */
-            }
-            .container {
-                /* --- 關鍵修改處 --- */
-                margin-top: 15px; /* 改為正值，讓查詢框下移，不擋住 Aifang Kids 圖片 */
-            }
-        }
-
+        /* 查詢主容器 */
         .container {
-            padding: 20px;
+            width: 100%;
+            max-width: 450px;
+            padding: 40px 25px;
             text-align: center;
-            width: 90%;
-            max-width: 320px;
-            position: relative;
-            z-index: 10;
         }
 
+        /* 標題風格 */
+        .header {
+            margin-bottom: 40px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .header h1 {
+            font-size: 20px;
+            font-weight: 500;
+            letter-spacing: 3px;
+            color: var(--text-main);
+            text-transform: uppercase;
+        }
+
+        /* 查詢區塊 - 仿 Cart 極簡清單 */
         .tracking-section {
-            margin-bottom: 20px;
-            padding: 18px;
-            border-radius: 20px;
-            background-color: rgba(255, 255, 255, 0.95);
-            box-shadow: 0 10px 25px rgba(167, 168, 161, 0.1); 
-            border: 1px solid var(--white);
+            margin-bottom: 35px;
+            text-align: left;
         }
 
-        .tracking-section p {
-            font-size: 14px;
-            margin-bottom: 12px;
-            color: var(--color-text);
-            font-weight: bold;
+        .section-label {
+            font-size: 11px;
+            font-weight: 700;
+            color: #aaa;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+            display: block;
+            text-transform: uppercase;
+        }
+
+        .input-group {
+            position: relative;
+            margin-bottom: 15px;
         }
 
         input[type="text"] {
             width: 100%;
-            padding: 12px;
-            margin-bottom: 12px;
-            border: 1.5px solid #eee;
-            border-radius: 10px;
-            font-size: 14px;
-            box-sizing: border-box;
-            font-family: 'Huninn', sans-serif;
+            padding: 15px 0;
+            border: none;
+            border-bottom: 1px solid #ddd;
+            font-size: 15px;
             outline: none;
-            text-align: center;
-            color: var(--color-text);
+            transition: 0.3s;
+            background: transparent;
+            color: var(--text-main);
+            letter-spacing: 1px;
         }
 
+        input[type="text"]:focus {
+            border-bottom-color: var(--kids-blue);
+        }
+
+        /* 按鈕風格 - 與 Cart 送出按鈕一致 */
         .button {
             width: 100%;
-            padding: 12px;
+            padding: 16px;
             border: none;
-            border-radius: 10px;
-            font-size: 15px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s;
-            margin-top: 5px;
-            font-family: 'Huninn', sans-serif;
-        }
-
-        .taqbin-button {
-            background-color: var(--color-accent);
-            color: var(--white);
-        }
-
-        .seven-eleven-button {
-            background-color: var(--color-text);
-            color: var(--white);
-        }
-
-        .note {
-            margin-top: 10px;
             font-size: 12px;
-            color: var(--color-text);
-            text-align: left;
-            line-height: 1.6;
-            background-color: rgba(255, 255, 255, 0.6);
-            border-radius: 15px;
-            padding: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: 0.3s;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
         }
 
-        .note ul { margin: 5px 0 0 0; padding-left: 20px; }
-        h2 { display: none; }
+        .btn-black {
+            background-color: #333;
+            color: #fff;
+        }
+
+        .btn-black:hover {
+            background-color: #555;
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid #ddd;
+            color: var(--text-gray);
+            margin-top: 10px;
+        }
+
+        .btn-outline:hover {
+            border-color: var(--text-main);
+            color: var(--text-main);
+        }
+
+        /* 操作說明 - 仿 Cart 運費說明區 */
+        .note {
+            margin-top: 50px;
+            padding: 25px;
+            background-color: #fafafa;
+            border-radius: 2px;
+            text-align: left;
+        }
+
+        .note strong {
+            font-size: 13px;
+            color: var(--text-main);
+            display: block;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+
+        .note ul {
+            list-style: none;
+        }
+
+        .note li {
+            font-size: 12px;
+            color: var(--text-gray);
+            margin-bottom: 5px;
+            position: relative;
+            padding-left: 15px;
+        }
+
+        .note li::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: var(--kids-blue);
+        }
+
+        /* 頁尾連結 */
+        .footer-link {
+            margin-top: 40px;
+            font-size: 11px;
+            color: #ccc;
+            text-decoration: none;
+            letter-spacing: 1px;
+        }
     </style>
 </head>
 <body>
 
 <div class="banner-container">
     <img src="https://raw.githubusercontent.com/aifangkids/trackshipment/main/AKfb__.jpg" 
-         alt="璦坊童裝" 
+         alt="AiFang Kids" 
          class="banner-image">
 </div>
 
 <div class="container">
-    <div class="tracking-section">
-        <p>🚚 黑貓宅急便 託運單查詢</p>
-        <input type="text" id="taqbinTrackingNumber" placeholder="請輸入 10 位黑貓單號" maxlength="10">
-        <button class="button taqbin-button" onclick="queryTaqbinStatus()">🔍 查詢黑貓貨態</button>
+    <div class="header">
+        <h1>TRACK ORDER</h1>
     </div>
 
     <div class="tracking-section">
-        <p>📦 7-ELEVEN 交貨便查詢</p>
-        <button class="button seven-eleven-button" onclick="openSevenElevenTracking()">🌐 前往官方查詢平台</button>
+        <span class="section-label">T-CAT / 黑貓宅急便</span>
+        <div class="input-group">
+            <input type="text" id="taqbinTrackingNumber" placeholder="ENTER 10-DIGIT NUMBER" maxlength="10">
+        </div>
+        <button class="button btn-black" onclick="queryTaqbinStatus()">🔍 SEARCH TAQBIN</button>
+    </div>
+
+    <div class="tracking-section">
+        <span class="section-label">7-ELEVEN / 交貨便</span>
+        <button class="button btn-outline" onclick="openSevenElevenTracking()">🌐 OPEN OFFICIAL TRACKING</button>
     </div>
 
     <div class="note">
-        <strong>※ 操作說明</strong>
+        <strong>GUIDE / 操作說明</strong>
         <ul>
-            <li>黑貓查詢：輸入單號後，跳轉官方結果頁。</li>
-            <li>7-ELEVEN 查詢：點擊前往官方平台輸入單號。</li>
+            <li>黑貓：輸入單號後，系統將自動開啟官方查詢結果頁。</li>
+            <li>7-11：點擊按鈕將導向 7-11 官方平台進行查詢。</li>
+            <li>若查無貨態，可能是商品尚未交寄，請稍後再試。</li>
         </ul>
     </div>
+
+    <a href="https://lin.ee/YqevOKl" class="footer-link">BACK TO LINE CHAT</a>
 </div>
 
 <script>
